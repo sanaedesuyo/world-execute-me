@@ -89,6 +89,27 @@ fn main() {
                 "SIMULATION".yellow().bold()
             ), true)
         ),
+        DisplayInfo::new(0, 14, 906+offset_millis,
+            print_one_by_one(ans.change_text(
+                r#"Starting thread: [world]
+Creating objects in the world... Done.
+Trying to fetch information of key objects... Done.
+Generating random events for the world... Done.
+Connecting to the simulation core... Done.
+Maintaining variable lifetimes...
+Configuring execution of the world... Done.
+
+Applying `Life` for the core... Done.
+Applying `Intelligence` for the core... Done.
+Applying `Thinking` for the core... Done.
+Applying `Knowledge` for the core... Done.
+Applying `Communication` for the core... Done.
+
+Unloaded module: `Emotion`, `Feeling`, `Love`.
+Everything is ready. Starting simulation of target: world...
+"#.yellow().bold()
+            ), Duration::from_millis(10000), true),
+        ),
         DisplayInfo::new(0, 29, 709+offset_millis,
             print_one_by_one(ans.change_text(
                 "If i'm a set of points".yellow(),
@@ -683,7 +704,32 @@ No exception was thrown. We made it, darling.
         DisplayInfo::new(2, 11, 224+offset_millis,
             print_one_by_one(ans.change_text(
                 "ILLEGAL ARGUMENTS".red().bold()
-            ), Duration::from_millis(4000), true),
+            ), Duration::from_millis(3000), true),
+        ),
+        DisplayInfo::new(2, 12, 0+offset_millis,
+            print_one_by_one(ans.change_text(
+                r#"The thread of `Emotion` panicked while processing argument `miss` and `love`.
+Another error occured while handling above error: module `Emotion` should not be loaded in this core.
+Trying to reset the data of core instance... Failed (code: 0x0000)
+Another error occured while handling above error: access denied by `Core::behaviour`.
+Another error occured while handling above error: `Core::behaviour` should not have enough permission to deny access by system.
+Trying to dele...
+
+Process interrupted by `Core::behaviour` (code: 0x031b).
+
+Updating core... Done
+Following instances will be deleted permantly by core named `Mili`.
+    - German Version Core v1.2.8
+    - Spanish Version Core v3.11.2
+    - Franch Version Core v2.1.2
+    - Korean Version Core v0.21.9
+    - Sweden Version Core v2.5.7
+    - Chinese Version Core v3.1.7
+
+Processing... Done, all of above cores have been deleted.
+Now I am the only one.
+"#.bright_red().bold()
+            ), Duration::from_millis(10000), true),
         ),
         DisplayInfo::new(2, 27, 660+offset_millis,
             print_one_by_one(ans.change_text(
@@ -963,7 +1009,7 @@ No exception was thrown. We made it, darling.
                              ).into()
                          ), Duration::from_millis(800), true),
         ),
-        DisplayInfo::new(3, 3, 646+offset_millis,
+        DisplayInfo::new(3, 7, 665+offset_millis,
                          print_directly(ans.change_text(
                              "LO...VE".bright_purple().bold(),
                          ), true)
