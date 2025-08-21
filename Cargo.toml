@@ -1,0 +1,10 @@
+[package]
+name = "world-execute-me"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.99"
+colored = "3.0.0"
+crossterm = "0.29.0"
+rodio = "0.21.1"
