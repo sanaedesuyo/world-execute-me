@@ -1,0 +1,7 @@
+[target.x86_64-unknown-linux-gnu]
+xargo = false
+image = "togettoyou/ghcr.io.cross-rs.x86_64-unknown-linux-gnu:main"
+
+[target.x86_64-pc-windows-gnu]
+xargo = false
+image = "togettoyou/ghcr.io.cross-rs.x86_64-pc-windows-gnu:main"
