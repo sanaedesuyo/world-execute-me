@@ -3,11 +3,17 @@ use std::sync::{Arc, Mutex};
 use crossterm::terminal::{Clear, ClearType};
 use std::thread;
 use std::time::Duration;
+use anyhow::Context;
 use crossterm::{cursor, execute};
+use rust_embed::{EmbeddedFile, RustEmbed};
 use world_execute_me::printer::{clear_all, print_directly, print_one_by_one};
 use world_execute_me::stream_controller::audio;
 use world_execute_me::stream_controller::display::{DisplayInfo, Displayer};
 use world_execute_me::cmd::CommandLine;
+
+#[derive(RustEmbed)]
+#[folder = "assets"]
+struct Asset;
 
 fn init() {
     execute!(
@@ -21,7 +27,11 @@ fn init() {
 fn main() {
 
     let offset_millis = 100u64;
-    let audio_player = audio::AudioPlayer::new("assets/wem.mp3");
+    let music = match Asset::get("wem.mp3") {
+        None => { eprintln!("Music file is not existed."); return; }
+        Some(f) => f
+    };
+    let audio_player = audio::AudioPlayer::new(music.data.as_ref().into());
     let status = audio_player.get_status();
 
     init();

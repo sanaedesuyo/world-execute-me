@@ -1,4 +1,4 @@
-use std::fs::File;
+use std::io::Cursor;
 use anyhow::{Context, Result};
 use std::sync::{Arc, Mutex};
 use std::thread;
@@ -11,9 +11,8 @@ pub struct PlayStatus {
     total_duration: Duration,
 }
 
-#[derive(Debug)]
-pub struct AudioPlayer<'a> {
-    filename: &'a str,
+pub struct AudioPlayer {
+    mp3_data: Vec<u8>,
     play_status: Arc<Mutex<PlayStatus>>,
 }
 
@@ -31,10 +30,10 @@ impl PlayStatus {
     }
 }
 
-impl<'a> AudioPlayer<'a> {
-    pub fn new(filename: &'a str) -> AudioPlayer<'a> {
+impl AudioPlayer {
+    pub fn new(mp3_data: Vec<u8>) -> AudioPlayer {
         AudioPlayer {
-            filename,
+            mp3_data,
             play_status: Arc::new(Mutex::new(PlayStatus {
                 current_timestamp: Duration::from_secs_f32(0f32),
                 total_duration: Duration::from_secs_f32(0f32),
@@ -47,10 +46,8 @@ impl<'a> AudioPlayer<'a> {
             .context("Failed to open default audio output stream")?;
         let sink = Sink::connect_new(&stream_handle.mixer());
 
-        let music_file = File::open(self.filename)
-            .context("Failed to open music file")?;
-
-        let source = Decoder::new(music_file)
+        let cursor = Cursor::new(self.mp3_data.clone());
+        let source = Decoder::new(cursor)
             .context("Failed to decode music file")?;
 
         let status = self.play_status.clone();
